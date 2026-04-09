@@ -1,124 +1,103 @@
-# AI Career Navigator & Skilling Assistant
+# AI Career Navigator
 
-A professional-grade SaaS platform that maps learner profiles to NCVET-approved vocational qualifications and NSQF levels (1–10) using AI-powered recommendations.
+A full-stack web platform that helps learners find the right career path based on India's NSQF (National Skills Qualifications Framework) levels. It uses AI to recommend courses, generate learning roadmaps, and provide career guidance through a chatbot.
 
-## 🚀 Features
+Built with FastAPI, React, MongoDB, and Groq AI.
 
-### 🎯 Core Functionality
-- **Personalized Learning Paths**: AI-driven roadmaps based on user profiles and NSQF levels.
-- **AI Career Coach**: Context-aware chatbot for personalized career advice.
-- **Course Assistant**: Specialized AI bot for module-specific queries using course context.
-- **Smart Recommendations**: Intelligent domain-based course suggestions.
-- **Assessment Engine**: pass-fail exams for course validation.
-- **Auto-Certification**: passed assessments automatically generate credentials on the user profile.
-- **Profile Management**: Dynamic profile updates with NSQF level recalculation.
+## What it does
 
-### 🎨 Pro-Level UI/UX
-- **Modern Dashboard**: Glassmorphic design with smooth animations and dynamic data.
-- **Responsive Design**: Mobile-first approach with collapsible sidebar.
-- **Interactive Visualizations**: Roadmap timelines, progress bars, and achievement badges.
-- **Visual Confidence**: Toast notifications and loading states.
+- **Learners** can set up their profile, get matched to an NSQF level (1-10), browse courses, take assessments, and earn certificates.
+- **Trainers** can create and manage courses, track student progress, create assessments, and view analytics.
+- **Policymakers** get a dashboard with skill gap analysis, regional insights, and exportable reports.
 
-### 🛠 Technical Stack
+There's also an AI career coach chatbot that gives personalized advice based on your profile.
 
-#### Frontend
-- **React.js** (Vite)
-- **Tailwind CSS** (Custom theme)
-- **Framer Motion** (Animations)
-- **Lucide React** (Icons)
+## Tech Stack
 
-#### Backend
-- **FastAPI** (Python)
-- **MongoDB** (Motor for async operations)
-- **Groq AI** (Llama 3 for recommendations and chat)
-- **Pydantic v2** (Data validation)
-- **JWT** (Secure Authentication)
+**Frontend:** React (Vite), Tailwind CSS, Framer Motion  
+**Backend:** FastAPI, MongoDB (Motor), Pydantic v2  
+**AI:** Groq API (Llama 3) for recommendations, roadmaps, and chat  
+**Auth:** JWT-based with role-based access control
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ai-career-navigator/
-├── frontend/                 # React.js application
+├── frontend/              # React app
 │   ├── src/
-│   │   ├── components/       # UI Components (Sidebar, ProtectedRoute, etc.)
-│   │   ├── pages/           # Pages (Dashboard, Profile, Assessments, etc.)
-│   │   ├── utils/           # API Client (Axios-based)
-│   │   └── App.jsx          # Routing & Layout
-├── backend/                  # FastAPI Application
-│   ├── routers/             # API Endpoints (Learn, Auth, AI, etc.) 
-│   ├── ml/                  # AI Clients & Predictors
-│   ├── models.py            # Pydantic Schemas
-│   ├── database.py          # MongoDB Connection
-│   ├── main.py              # Entry Point
-│   └── requirements.txt     # Python Dependencies
+│   │   ├── components/    # Sidebar, ChatBot, etc.
+│   │   ├── pages/         # All page components
+│   │   └── utils/         # API client
+│   └── package.json
+├── backend/               # FastAPI server
+│   ├── routers/           # API routes (auth, learners, trainers, etc.)
+│   ├── ml/                # Groq client and ML predictor
+│   ├── models.py          # Pydantic models
+│   ├── auth.py            # JWT auth logic
+│   ├── main.py            # App entry point
+│   └── requirements.txt
 └── README.md
 ```
 
-## 🔧 Installation & Setup
+## Getting Started
 
-### Prerequisites
-- Node.js 18+ and npm
+### You'll need
+- Node.js 18+
 - Python 3.10+
-- MongoDB instance (Local or Atlas)
-- Groq API Key (for AI features)
+- MongoDB running locally (or a MongoDB Atlas URI)
+- A Groq API key from [console.groq.com](https://console.groq.com)
 
-### Backend Setup (Mandatory Venv)
-1. **Create Virtual Environment**:
-   ```bash
-   cd backend
-   python3 -m venv venv
-   source venv/bin/activate  # Windows: venv\Scripts\activate
-   ```
-2. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Environment Variables**: Create `.env` in `backend/`:
-   ```env
-   MONGODB_URI=mongodb://localhost:27017
-   DATABASE_NAME=ai_career_navigator
-   GROQ_API_KEY=your_key_here
-   SECRET_KEY=your_jwt_secret
-   ```
-4. **Run Server**:
-   ```bash
-   python main.py
-   ```
+### Backend
 
-### Frontend Setup
-1. **Install Dependencies**:
-   ```bash
-   cd frontend
-   npm install
-   ```
-2. **Run Dev Server**:
-   ```bash
-   npm run dev
-   ```
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-## 📊 Core API Endpoints
+Copy `.env.example` to `.env` and fill in your values:
 
-### Learners
-- `GET /api/learners/dashboard` - Get full dynamic dashboard state
-- `POST /api/learners/profile` - Update profile & recalculate NSQF
-- `GET /api/learners/recommendations` - Get AI-driven course suggestions
-- `POST /api/learners/assessments/{id}/submit` - Submit exam & get score/cert
+```
+MONGODB_URI=mongodb://localhost:27017
+DATABASE_NAME=ai_career_navigator
+GROQ_API_KEY=your_key_here
+SECRET_KEY=your_jwt_secret
+```
 
-### AI Chat
-- `POST /api/ai-chat/career-coach` - Profile-aware career mentor
-- `POST /api/ai-chat/course-assistant/{id}` - Context-aware course support
+Start the server:
 
-## 🛠 Troubleshooting
+```bash
+uvicorn main:app --reload --port 8000
+```
 
-### "Failed to load dashboard data"
-Ensure the backend server is running and connected to MongoDB. Check that `python main.py` is executed inside the **activated virtual environment** to ensure all dependencies like `motor` and `pydantic` are available.
+### Frontend
 
-### "Something went wrong" (React Crash)
-If the dashboard crashes with a React rendering error, it is likely due to stale data in MongoDB. Run a migration or clear the `users` collection if you've recently changed the `learning_path` data structure from strings to objects.
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-### MongoDB Connection Refused
-Verify that your MongoDB service is running and the `MONGODB_URI` in `.env` is correct.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
----
+## Some useful API endpoints
 
-**Built with ❤️ for vocational education transformation in India**
+| Endpoint | What it does |
+|----------|-------------|
+| `POST /api/auth/register` | Create a new account |
+| `POST /api/auth/login` | Login (role is validated) |
+| `GET /api/learners/dashboard` | Learner dashboard data |
+| `POST /api/learners/profile` | Update profile & recalculate NSQF |
+| `POST /api/ai-chat/career-coach` | Chat with the AI career coach |
+| `GET /api/trainers/analytics` | Trainer analytics dashboard |
+
+Full API docs are available at [http://localhost:8000/docs](http://localhost:8000/docs) when the backend is running.
+
+## Common issues
+
+**"Failed to load dashboard data"** — Make sure the backend is running and MongoDB is connected. Run the server inside the activated venv.
+
+**MongoDB connection refused** — Check that MongoDB is running and your `MONGODB_URI` in `.env` is correct.
+
+**Login says "select the correct role"** — The role you picked on the login screen (Learner/Trainer/Policymaker) has to match the role you registered with.
