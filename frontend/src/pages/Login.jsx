@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Lock, Mail, ArrowRight, Eye, EyeOff, GraduationCap, TrendingUp, Users } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
+
 const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({
     email: '',
@@ -17,7 +19,7 @@ const Login = ({ onLogin }) => {
     setIsLoading(true);
     
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(`${API_BASE}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +60,7 @@ const Login = ({ onLogin }) => {
     }
     
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${API_BASE}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
