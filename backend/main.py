@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # CORS origins from environment (comma-separated) with localhost defaults
-DEFAULT_ORIGINS = "http://localhost:5173,http://localhost:3000,http://localhost:5174,http://localhost:5175"
+DEFAULT_ORIGINS = "https://ai-career-navigator-liard.vercel.app,http://localhost:5173,http://localhost:3000,http://localhost:5174,http://localhost:5175"
 CORS_ORIGINS = [
     origin.strip()
     for origin in os.getenv("CORS_ORIGINS", DEFAULT_ORIGINS).split(",")
